@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Interactive Page ✨</title>
+<meta name="description" content="A fun, high-end interactive web page built with plain HTML, CSS and JavaScript.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link rel="preconnect" href="https://sf3-scmcdn-cn.feishucdn.com" crossorigin>
+<link rel="preload" href="https://sf3-scmcdn-cn.feishucdn.com/obj/feishu-static/lark-miaoda-fonts/fonts/space-grotesk/4ecc7e89b711.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap">
+<style>
+  :root{
+    --text:#eef1ff; --dim:#a3aed8; --line:rgba(148,163,255,.18);
+    --p:#ec4899; --head:#f8fafc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:"Space Grotesk","Segoe UI",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:#070b1a; color:var(--text); line-height:1.6;
+    min-height:100vh; overflow-x:hidden;
+  }
+  ::selection{background:rgba(236,72,153,.4)}
+
+  /* ===== animated background ===== */
+  .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .aurora{position:absolute;inset:-20%;background:
+    radial-gradient(38% 32% at 22% 18%, rgba(139,92,246,.34), transparent 70%),
+    radial-gradient(42% 36% at 82% 26%, rgba(236,72,153,.24), transparent 70%),
+    radial-gradient(46% 40% at 55% 88%, rgba(245,158,11,.16), transparent 70%);
+    animation:drift 22s ease-in-out infinite alternate}
+  @keyframes drift{from{transform:translate3d(-2%,-1%,0) scale(1)}to{transform:translate3d(2%,2%,0) scale(1.06)}}
+  .floater{position:absolute;opacity:.55;animation:floaty 9s ease-in-out infinite alternate;user-select:none}
+  @keyframes floaty{from{transform:translateY(8px) rotate(-6deg)}to{transform:translateY(-24px) rotate(8deg)}}
+
+  /* ===== stage ===== */
+  .stage{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:52px 20px 34px;display:flex;flex-direction:column;align-items:center;text-align:center}
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(139,92,246,.10);color:#d7d9ff;font-size:.85rem;letter-spacing:.04em;font-weight:500;box-shadow:0 0 24px rgba(139,92,246,.18)}
+  .title{font-size:clamp(2.7rem,9vw,5rem);font-weight:700;letter-spacing:-.03em;line-height:1.1;color:var(--head);text-shadow:0 0 34px rgba(248,250,252,.28);transition:color .35s ease, text-shadow .35s ease;margin:22px 0 10px;min-height:1.4em;max-width:15em}
+  .title.pop{animation:pop .4s ease}
+  @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.07)}100%{transform:scale(1)}}
+  .subtitle{color:var(--dim);font-size:clamp(.95rem,2.6vw,1.15rem);max-width:36em}
+  .subtitle strong{color:#e6e9ff;font-weight:500}
+
+  .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:30px 0 26px}
+  .btn{appearance:none;border:0;cursor:pointer;font-family:inherit;font-size:1.05rem;font-weight:500;min-height:56px;padding:0 30px;border-radius:999px;position:relative;overflow:hidden;transition:transform .18s ease, box-shadow .25s ease, background .25s ease, border-color .25s ease}
+  .btn:focus-visible{outline:2px solid var(--p);outline-offset:3px}
+  .primary{background:linear-gradient(135deg,#8b5cf6,#ec4899 55%,#f59e0b);color:#fff;box-shadow:0 10px 34px rgba(236,72,153,.35)}
+  .primary:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 14px 46px rgba(236,72,153,.5)}
+  .primary:active{transform:scale(.96)}
+  .primary .shine{position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.5),transparent);animation:shine 3.4s ease-in-out infinite}
+  @keyframes shine{0%{left:-60%}55%{left:130%}100%{left:130%}}
+  .ghost{background:rgba(148,163,255,.08);border:1px solid rgba(148,163,255,.35);color:#dfe4ff}
+  .ghost:hover{background:rgba(148,163,255,.16);border-color:rgba(148,163,255,.6);transform:translateY(-2px)}
+  .ghost:active{transform:scale(.96)}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:660px}
+  .stat{display:flex;align-items:center;gap:12px;text-align:left;background:rgba(19,26,58,.75);border:1px solid var(--line);border-radius:18px;padding:14px 16px}
+  .stat-emoji{font-size:1.5rem}
+  .stat b{display:block;font-size:1.12rem;color:#fff;font-weight:500;line-height:1.25}
+  .stat small{color:var(--dim);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase}
+  .swatch{width:20px;height:20px;border-radius:50%;background:var(--head);border:2px solid rgba(255,255,255,.3);margin-left:auto;flex-shrink:0;transition:background .35s ease}
+
+  .foot{position:relative;z-index:1;text-align:center;color:#5f6a99;font-size:.85rem;padding:26px 20px 34px}
+
+  .spark{position:fixed;z-index:60;pointer-events:none;font-size:22px;transform:translate(-50%,-50%);animation:fly .9s ease-out forwards}
+  @keyframes fly{from{transform:translate(-50%,-50%) scale(.5);opacity:1}to{transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.15);opacity:0}}
+
+  @media (max-width:420px){
+    .stats{gap:8px}
+    .stat{padding:10px 12px;gap:8px}
+    .stat-emoji{font-size:1.2rem}
+    .btn{padding:0 22px}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .aurora,.floater,.primary .shine,.title.pop{animation:none !important}
+    *{transition:none !important}
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===== background: aurora + floating emoji ===== -->
+  <div class="bg" aria-hidden="true">
+    <div class="aurora"></div>
+    <span class="floater" style="left:6%;top:14%;font-size:26px">🎈</span>
+    <span class="floater" style="left:88%;top:10%;font-size:30px;animation-delay:1.2s">🚀</span>
+    <span class="floater" style="left:12%;top:68%;font-size:22px;animation-delay:2.4s">✨</span>
+    <span class="floater" style="left:80%;top:62%;font-size:24px;animation-delay:3.1s">🎉</span>
+    <span class="floater" style="left:48%;top:6%;font-size:20px;animation-delay:1.8s">⭐</span>
+    <span class="floater" style="left:92%;top:82%;font-size:26px;animation-delay:2.9s">🌈</span>
+    <span class="floater" style="left:4%;top:42%;font-size:20px;animation-delay:3.6s">💫</span>
+    <span class="floater" style="left:70%;top:30%;font-size:28px;animation-delay:.6s">🦄</span>
+  </div>
+
+  <!-- ===== main stage ===== -->
+  <main class="stage">
+    <span class="badge">🎓 My First Interactive Web Page</span>
+
+    <h1 id="myHeading" class="title">Welcome! 👋</h1>
+
+    <p class="subtitle">A tiny page powered by <strong>HTML + CSS + JavaScript</strong>.<br>Press the button and watch it come alive ✨</p>
+
+    <div class="actions">
+      <button id="myButton" class="btn primary">Click Me 🎯<span class="shine" aria-hidden="true"></span></button>
+      <button id="resetButton" class="btn ghost">Reset 🔄</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><span class="stat-emoji">🖱️</span><div><b id="clickCount">0</b><small>clicks</small></div></div>
+      <div class="stat"><span class="stat-emoji">🎨</span><div><b id="colorName">snow white</b><small>heading color</small></div><span class="swatch" id="colorSwatch"></span></div>
+      <div class="stat"><span class="stat-emoji">⚡</span><div><b id="stateText">idle</b><small>state</small></div></div>
+    </div>
+  </main>
+
+  <footer class="foot">Made with ❤️ and JavaScript</footer>
+
+  <script>
+    // 1. find the elements
+    const heading = document.getElementById('myHeading');
+    const button = document.getElementById('myButton');
+    const resetButton = document.getElementById('resetButton');
+    const clickCount = document.getElementById('clickCount');
+    const colorName = document.getElementById('colorName');
+    const colorSwatch = document.getElementById('colorSwatch');
+    const stateText = document.getElementById('stateText');
+
+    // 2. fun messages and colors
+    const funMessages = [
+      "You're awesome! 🚀", "JavaScript is magic! ✨", "Great job! 🎉",
+      "Clicking feels good! 😄", "You found the fun! 🎈", "So interactive! 🕹️",
+      "Nice click! 💥", "High five! 🙌", "Welcome to the future! 🤖"
+    ];
+    const colors = [
+      { name: "coral red",        value: "#FF6B6B" },
+      { name: "sunshine yellow",  value: "#FBBF24" },
+      { name: "emerald green",    value: "#34D399" },
+      { name: "sky blue",         value: "#60A5FA" },
+      { name: "bubblegum pink",   value: "#F472B6" },
+      { name: "lavender purple",  value: "#A78BFA" },
+      { name: "tangerine orange", value: "#F97316" },
+      { name: "teal",             value: "#2DD4BF" }
+    ];
+
+    // 3. click the button → new text + new color + count
+    let clicks = 0;
+    button.addEventListener('click', function (e) {
+      clicks++;
+      clickCount.textContent = clicks;
+      const msg = funMessages[Math.floor(Math.random() * funMessages.length)];
+      const c = colors[Math.floor(Math.random() * colors.length)];
+      heading.textContent = msg;
+      heading.style.color = c.value;
+      colorName.textContent = c.name;
+      colorSwatch.style.background = c.value;
+      stateText.textContent = 'fired!';
+      spawnSparks(e.clientX, e.clientY);
+      heading.classList.add('pop');
+      setTimeout(function () { heading.classList.remove('pop'); }, 400);
+    });
+
+    // 4. reset button → back to the beginning
+    resetButton.addEventListener('click', function () {
+      clicks = 0;
+      clickCount.textContent = 0;
+      heading.textContent = 'Welcome! 👋';
+      heading.style.color = '#F8FAFC';
+      colorName.textContent = 'snow white';
+      colorSwatch.style.background = '#F8FAFC';
+      stateText.textContent = 'reset';
+    });
+
+    // 5. little sparkles that fly out when you click
+    function spawnSparks(x, y) {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const sparkEmojis = ['🎉', '✨', '💥', '⭐'];
+      for (let i = 0; i < 8; i++) {
+        const s = document.createElement('span');
+        s.className = 'spark';
+        s.textContent = sparkEmojis[i % sparkEmojis.length];
+        s.style.left = x + 'px';
+        s.style.top = y + 'px';
+        s.style.setProperty('--dx', (Math.random() * 160 - 80) + 'px');
+        s.style.setProperty('--dy', (Math.random() * 160 - 80) + 'px');
+        document.body.appendChild(s);
+        setTimeout(function () { s.remove(); }, 900);
+      }
+    }
+  </script>
+</body>
+</html>
